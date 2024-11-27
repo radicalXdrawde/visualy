@@ -12,8 +12,9 @@ def commit_table():
         call_command('migrate', 'baseLoader')  # Equivalent to running `python manage.py migrate`
 
         print("Command executed successfully!")
+        return 1
     except Exception as e:
-        print(f"An error occurred: {e}")
+        return -1
         
 def dynamic_dbCreation(databaseUpload):
     #check type (handling just csv for now)
@@ -41,10 +42,11 @@ def dynamic_dbCreation(databaseUpload):
         {'__module__': __name__, **modelFields}  # Manually set the module name
     )
 
-    commit_table()
+    success = commit_table()
+    if success == -1:
+        return -1
     for row in csv_reader:
         dataRow = dynamicModel(**row)  # Create an instance of the model
         dataRow.save()
     #add one more row from before
-
-    return 17
+    return dynamicModel

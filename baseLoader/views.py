@@ -15,9 +15,13 @@ def upload_database(request):
         if form.is_valid():
             savedFile = form.save()
             uploaded_file = savedFile.file  # This retrieves the file stored in the `file` field associated with the form that wa sjust saved
-        success = dynamic_dbCreation(uploaded_file)
-        if success:
-            return render(request, 'successfullUpload.html') 
+        model = dynamic_dbCreation(uploaded_file)
+        if model != -1:
+
+            fields = model._meta.get_fields()
+            columns = ((el.name) for el in fields)
+            rows = list(model.objects.all().values())
+            return render(request, 'database.html',{'columns':columns,'rows':rows}) 
         else:
             return render(request, 'successfullUpload.html') 
 

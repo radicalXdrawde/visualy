@@ -1,38 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>View Table Data</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
 </head>
 <body>
-    <h1>DataBase</h1>
+    <!-- my_template.html -->
     <table>
         <thead>
             <tr>
-                {% for column in columns %}
-                    <th>{{ column }}</th>
+                <!-- Dynamically create headers based on the keys in the first row -->
+                {% for key, value in rows.0.items %}
+                    <th>{{ key }}</th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
+            <!-- Loop through each row -->
             {% for row in rows %}
                 <tr>
-                    {% for cell in row %}
-                        <td>{{ cell }}</td>
+                    <!-- Loop through the key-value pairs in the row -->
+                    {% for key, value in row.items %}
+                        <td>{{ value }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    <button type="submit">Load Graph</button>
 </body>
 </html>
